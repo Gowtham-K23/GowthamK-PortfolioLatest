@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* Fonts: install with
+   npm install @fontsource/baloo-2 @fontsource/poppins
+   then import both in main.jsx:
+   import "@fontsource/baloo-2/400.css";
+   import "@fontsource/baloo-2/600.css";
+   import "@fontsource/baloo-2/800.css";
+   import "@fontsource/poppins/400.css";
+   import "@fontsource/poppins/500.css";
+   import "@fontsource/poppins/600.css";
+*/
+
+@theme {
+  --color-sky: #87CEEB;
+  --color-sky-light: #C7EAF7;
+  --color-sky-pale: #EAF7FD;
+  --color-sky-deep: #4A90AE;
+  --color-ink: #1E2A38;
+  --color-cloud: #FFFFFF;
+
+  --font-display: "Baloo 2", sans-serif;
+  --font-body: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-sky-pale);
+}
+
+/* Manga-style ink outline utility — reuse anywhere a cel-shaded edge is needed */
+.ink-outline {
+  border: 3px solid var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+
+/* Shared bouncy easing for the one or two deliberate motion moments */
+:root {
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes drift {
+  0%   { transform: translateX(-10%); }
+  50%  { transform: translateX(6%); }
+  100% { transform: translateX(-10%); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pop-in {
+  0%   { transform: scale(0.6); opacity: 0; }
+  70%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes blink {
+  0%, 45%  { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100%     { opacity: 1; }
+}
+
+.cursor-blink {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+
+@keyframes twinkle {
+  0%, 100% { transform: scale(0.75); opacity: 0.35; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+/* Side decorations: respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .decor {
+    animation: none !important;
+  }
+}
