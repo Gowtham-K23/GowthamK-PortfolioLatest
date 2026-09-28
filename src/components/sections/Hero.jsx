@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Reveal from "../ui/Reveal";
 import SideDecor from "../ui/SideDecor";
-import resume from "../../assets/Resume/Gowtham K - Resume.pdf";
+import resume from "../../assets/Resume/Updated Resume.pdf";
 import profile from "../../assets/Hero Image/heroImg.png";
 
 const ROLES = ["Full Stack Developer", "Cloud Integration", "Generative AI"];

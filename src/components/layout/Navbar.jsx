@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import resume from "../../assets/Resume/Gowtham K - Resume.pdf";
+import resume from "../../assets/Resume/Updated Resume.pdf";
 
 const NAV_LINKS = [
   { label: "Skills", href: "#skills" },

@@ -2,7 +2,7 @@ import { Download, Mail, Phone } from "lucide-react";
 import { FaGithub, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import Reveal from "../ui/Reveal";
 import SideDecor from "../ui/SideDecor";
-import resume from "../../assets/Resume/Gowtham K - Resume.pdf";
+import resume from "../../assets/Resume/Updated Resume.pdf";
 
 const CONTACTS = [
   {
