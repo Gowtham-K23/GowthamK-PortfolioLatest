@@ -55,11 +55,7 @@ export default function Certifications() {
                 <h3 className="mt-4 font-display text-lg font-extrabold leading-snug text-ink">
                   {cert.title}
                 </h3>
-                {cert.subtitle && (
-                  <p className="mt-1 font-body text-sm font-semibold text-sky-deep">
-                    {cert.subtitle}
-                  </p>
-                )}
+                <p className="mt-1 font-body text-sm font-semibold text-sky-deep">{cert.org}</p>
 
                 <span className="mt-3 inline-block self-start rounded-full bg-sky-pale px-3 py-1 font-body text-xs font-semibold text-ink">
                   Issued {cert.issued}

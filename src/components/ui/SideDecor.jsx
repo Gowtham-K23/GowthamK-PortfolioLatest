@@ -1,3 +1,4 @@
+import { memo, useEffect, useRef, useState } from "react";
 import {
   Cloud,
   Sparkle,
@@ -131,37 +132,65 @@ const CONFIG = {
   ],
 };
 
-export default function SideDecor({ variant }) {
+/**
+ * One doodle. It only animates while it is on (or just about to enter) the
+ * screen, so with ~70 doodles on the page only the few in view are ever
+ * running — this is what keeps scrolling smooth.
+ */
+function DecorItem({ item }) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "120px 0px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const Doodle = REGISTRY[item.d];
+  const timing = item.anim === "spin-slow" ? "linear" : "ease-in-out";
+
+  return (
+    <div
+      ref={ref}
+      className={item.m ? "absolute opacity-40 xl:opacity-100" : "absolute hidden xl:block"}
+      style={{
+        top: `${item.y}%`,
+        [item.s === "l" ? "left" : "right"]: `${item.x}%`,
+        width: `clamp(38px, ${item.size}vw, ${Math.round(item.size * 21)}px)`,
+        transform: `rotate(${item.rot ?? 0}deg)`,
+      }}
+    >
+      <div
+        className="decor"
+        style={{
+          animation: `${item.anim} ${item.dur}s ${timing} ${item.delay ?? 0}s infinite`,
+          animationPlayState: inView ? "running" : "paused",
+        }}
+      >
+        <Doodle text={item.text} tint={item.tint} />
+      </div>
+    </div>
+  );
+}
+
+function SideDecor({ variant }) {
   const items = CONFIG[variant] ?? [];
 
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      {items.map((item, i) => {
-        const Doodle = REGISTRY[item.d];
-        const timing = item.anim === "spin-slow" ? "linear" : "ease-in-out";
-
-        return (
-          <div
-            key={i}
-            className={item.m ? "absolute opacity-40 xl:opacity-100" : "absolute hidden xl:block"}
-            style={{
-              top: `${item.y}%`,
-              [item.s === "l" ? "left" : "right"]: `${item.x}%`,
-              width: `clamp(38px, ${item.size}vw, ${Math.round(item.size * 21)}px)`,
-              transform: `rotate(${item.rot ?? 0}deg)`,
-            }}
-          >
-            <div
-              className="decor"
-              style={{
-                animation: `${item.anim} ${item.dur}s ${timing} ${item.delay ?? 0}s infinite`,
-              }}
-            >
-              <Doodle text={item.text} tint={item.tint} />
-            </div>
-          </div>
-        );
-      })}
+      {items.map((item, i) => (
+        <DecorItem key={i} item={item} />
+      ))}
     </div>
   );
 }
+
+// memo: the Hero's role-text timer re-renders Hero every couple of seconds;
+// this stops that from re-rendering all the doodles too.
+export default memo(SideDecor);
